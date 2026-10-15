@@ -136,9 +136,11 @@ body:not([data-page=home]):not([data-page=trades]) .fab{display:none}
 .card-h h2{font-size:17px}
 .eyebrow{font-size:13px;color:var(--muted)}
 .big{font:700 clamp(32px,8vw,46px)/1.1 var(--disp);letter-spacing:-.015em;margin:6px 0 16px;font-variant-numeric:tabular-nums}
-.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:14px;border-top:1px solid var(--line)}
-.trio span{display:block;font-size:12.5px;color:var(--muted)}
-.trio b{display:block;font:500 14px var(--mono);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trio,.duo{display:grid;gap:10px;padding-top:14px;border-top:1px solid var(--line)}
+.trio{grid-template-columns:repeat(3,minmax(0,1fr))}
+.duo{grid-template-columns:repeat(2,minmax(0,1fr))}
+.trio span,.duo span{display:block;font-size:12.5px;color:var(--muted)}
+.trio b,.duo b{display:block;font:500 14px var(--mono);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bal-note{margin-top:12px;font-size:13px;color:var(--muted)}
 .seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
 .seg.wide{display:grid;width:100%}
@@ -607,8 +609,7 @@ function pageHome() {
    <section class="card" style="--i:0">
      <div class="eyebrow">Saldo akun · XAUUSD</div>
      <div class="big" data-to="${bal}" data-fmt="usd">${fUSD(bal)}</div>
-     <div class="trio">
-       <div><span>Top up</span><b>${fUSD(dep)}</b></div>
+     <div class="duo">
        <div><span>Withdraw</span><b>${fUSD(wd)}</b></div>
        <div><span>Total PnL</span><b class="${cls(all.pnl)}">${fUSD(all.pnl, true)}</b></div>
      </div>
@@ -690,12 +691,13 @@ function pageTrades() {
 
 /* ───────── halaman: kas ───────── */
 function pageCash() {
-  const dep = cashSum('deposit'), wd = cashSum('withdraw'), wdIdr = S.cash.filter(c => c.kind === 'withdraw').reduce((a, c) => a + (c.idr || 0), 0);
+  const all = stats(S.trades), dep = cashSum('deposit'), wd = cashSum('withdraw'), bal = dep - wd + all.pnl;
+  const wdIdr = S.cash.filter(c => c.kind === 'withdraw').reduce((a, c) => a + (c.idr || 0), 0);
   const rows = S.cash.slice().reverse();
   return `${head('Kas', 'Top up dan withdraw')}
   <div class="stack">
    <section class="card" style="--i:0"><div class="trio" style="border:0;padding:0">
-     <div><span>Total top up</span><b>${fUSD(dep)}</b></div><div><span>Total withdraw</span><b>${fUSD(wd)}</b></div><div><span>Withdraw (Rp)</span><b>${fIDR(wdIdr)}</b></div></div></section>
+     <div><span>Balance</span><b data-to="${bal}" data-fmt="usd">${fUSD(bal)}</b></div><div><span>Total withdraw</span><b>${fUSD(wd)}</b></div><div><span>Withdraw (Rp)</span><b>${fIDR(wdIdr)}</b></div></div></section>
    <div class="btn-row" style="--i:1"><button class="btn" data-act="add-cash" data-k="deposit">${ico(P.plus, 18)}Top up</button><button class="btn ghost" data-act="add-cash" data-k="withdraw">Withdraw</button></div>
    <section class="card" style="--i:2">${rows.length ? `<div class="list">${rows.map(c => `<button class="row" data-act="edit-cash" data-id="${c.id}">
      <span class="tag ${c.kind}">${c.kind === 'deposit' ? 'TOP UP' : 'WD'}</span>
