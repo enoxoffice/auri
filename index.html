@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="id" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f8f5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Auri">
+<title>Auri · Jurnal XAUUSD</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050705'/%3E%3Cpath d='M18 41l9-9 6 5 13-15' fill='none' stroke='%2339ff6a' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+(function(){try{var t=localStorage.getItem('auri-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;}catch(e){}})();
+</script>
+<style>
+:root{--sans:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--disp:'Bricolage Grotesque','DM Sans',system-ui,sans-serif;--mono:'DM Mono',ui-monospace,SFMono-Regular,Menlo,monospace;--ease:cubic-bezier(.2,.7,.2,1)}
+[data-theme=light]{--bg:#f7f8f5;--surface:#fff;--surface2:#f0f2ed;--text:#0d1a11;--muted:#5f6d63;--line:#e1e6dd;--accent:#0b5a2b;--accent-ink:#fff;--accent-soft:rgba(11,90,43,.10);--loss:#b3261e;--loss-soft:rgba(179,38,30,.09);color-scheme:light}
+[data-theme=dark]{--bg:#050705;--surface:#0c100c;--surface2:#141a14;--text:#e8f1e9;--muted:#808f83;--line:#1c241d;--accent:#39ff6a;--accent-ink:#04120a;--accent-soft:rgba(57,255,106,.11);--loss:#ff5d5d;--loss-soft:rgba(255,93,93,.12);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--text);font:400 16px/1.45 var(--sans);-webkit-text-size-adjust:100%;transition:background .3s,color .3s}
+body.lock{overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+h1,h2,h3{font-family:var(--disp);letter-spacing:-.02em;line-height:1.15}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.up{color:var(--accent)}.dn{color:var(--loss)}
+.muted{color:var(--muted)}
+
+/* ── logo & splash ── */
+.logo{display:block;color:var(--accent);width:40px;height:40px;flex:none}
+.logo .lg-ring,.logo .lg-line{stroke-dasharray:1 1}
+.logo:not(.anim) .lg-ring,.logo:not(.anim) .lg-line{stroke-dashoffset:0}
+.logo.anim .lg-ring,.logo.anim .lg-line{stroke-dashoffset:1}
+.logo.anim .lg-ring{animation:draw .95s .1s cubic-bezier(.6,.1,.2,1) forwards}
+.logo.anim .lg-line{animation:draw .6s .8s ease-out forwards}
+.logo.anim .lg-dot{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .45s 1.3s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:scale(1)}}
+#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .45s,transform .45s}
+#splash.out{opacity:0;transform:scale(1.04);pointer-events:none}
+#splash .logo{width:112px;height:112px}
+.sp-word{font:700 34px var(--disp);letter-spacing:-.03em;opacity:0;transform:translateY(8px);animation:rise .6s 1.15s var(--ease) forwards}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.wordmark{font:700 24px var(--disp);letter-spacing:-.03em}
+
+/* ── auth ── */
+#auth{min-height:100dvh;position:relative;overflow:hidden}
+#auth::before{content:"";position:absolute;width:640px;height:640px;border-radius:50%;border:1px solid var(--line);right:-300px;bottom:-260px;pointer-events:none}
+#auth::after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;border:1px solid var(--line);left:-210px;top:-150px;pointer-events:none}
+.auth-wrap{position:relative;z-index:1;min-height:100dvh;max-width:420px;margin:0 auto;padding:calc(20px + env(safe-area-inset-top)) 20px calc(24px + env(safe-area-inset-bottom));display:flex;flex-direction:column;justify-content:center;gap:22px;animation:rise .5s var(--ease) both}
+.auth-brand{display:flex;align-items:center;gap:12px}
+.theme-btn{position:absolute;right:20px;top:calc(18px + env(safe-area-inset-top))}
+.auth-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px}
+.auth-card h1{font-size:26px;margin-bottom:4px}
+.auth-card>p{color:var(--muted);font-size:14.5px;margin-bottom:18px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--surface2);border-radius:14px;padding:4px;margin-bottom:20px}
+.tabs button{min-height:40px;border-radius:10px;font-weight:600;font-size:14.5px;color:var(--muted);transition:background .2s,color .2s}
+.tabs button.on{background:var(--surface);color:var(--text);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.fld{display:block;margin-bottom:14px;min-width:0}
+.fld>span{display:block;font-size:13px;font-weight:500;color:var(--muted);margin-bottom:6px}
+input,select,textarea{width:100%;min-height:48px;background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:0 14px;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+textarea{padding:12px 14px;resize:none;min-height:72px}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);background-position:calc(100% - 20px) 21px,calc(100% - 15px) 21px;background-size:5px 5px;background-repeat:no-repeat;padding-right:36px}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+input[type=date]{min-width:0;text-align:left}
+.pw{position:relative}
+.pw input{padding-right:48px}
+.eye{position:absolute;right:4px;top:0;width:44px;height:48px;display:grid;place-items:center;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:14px;background:var(--accent);color:var(--accent-ink);font-weight:600;font-size:15.5px;transition:transform .12s,opacity .2s}
+.btn:active{transform:scale(.98)}
+.btn.block{width:100%}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.sm{min-height:40px;padding:0 14px;font-size:14px;border-radius:12px}
+.btn.danger{background:transparent;color:var(--loss);border:1px solid var(--line)}
+.btn[disabled]{opacity:.55;pointer-events:none}
+.btn.loading::after{content:"";width:16px;height:16px;border-radius:50%;border:2px solid currentColor;border-right-color:transparent;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lnk{color:var(--accent);font-weight:600;font-size:14px;padding:6px 0}
+.lnk-row{display:flex;justify-content:space-between;align-items:center;margin:-2px 0 16px}
+.msg{font-size:13.5px;border-radius:12px;padding:10px 12px;margin-bottom:14px;line-height:1.4}
+.msg.err{background:var(--loss-soft);color:var(--loss)}
+.msg.ok{background:var(--accent-soft);color:var(--accent)}
+.err-t{color:var(--loss);font-size:13.5px;min-height:20px;margin-bottom:8px}
+.icon-btn{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:var(--text);transition:background .2s}
+.icon-btn:hover{background:var(--surface2)}
+
+/* ── shell ── */
+.shell{display:block}
+.side{display:none}
+.main{width:100%;max-width:720px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom))}
+.main>*{min-width:0}
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(5,1fr);background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+.bottom .nv{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:500;color:var(--muted);padding:6px 0;border-radius:12px;transition:color .2s}
+.bottom .nv.on{color:var(--accent)}
+.bottom .nv svg{transition:transform .25s var(--ease)}
+.bottom .nv.on svg{transform:translateY(-1px) scale(1.08)}
+.fab{position:fixed;right:16px;bottom:calc(78px + env(safe-area-inset-bottom));width:54px;height:54px;border-radius:18px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;z-index:21;box-shadow:0 8px 24px rgba(0,0,0,.22);transition:transform .15s,opacity .2s}
+.fab:active{transform:scale(.94)}
+body:not([data-page=home]):not([data-page=trades]) .fab{display:none}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.ph h1{font-size:26px}
+.ph p{color:var(--muted);font-size:14px;margin-top:2px}
+.ph-r{display:flex;align-items:center;gap:4px}
+.av{width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font:700 16px var(--disp);flex:none;text-transform:uppercase}
+.av.lg{width:76px;height:76px;font-size:28px}
+.av.sm{width:36px;height:36px;font-size:14px}
+
+@media(min-width:900px){
+ .shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100dvh}
+ .side{display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100dvh;padding:26px 18px;border-right:1px solid var(--line)}
+ .side .brand{display:flex;align-items:center;gap:10px;margin-bottom:22px;padding-left:6px}
+ .side .nv{display:flex;align-items:center;gap:12px;min-height:46px;padding:0 12px;border-radius:12px;font-weight:500;color:var(--muted);text-align:left;transition:background .2s,color .2s}
+ .side .nv:hover{background:var(--surface2)}
+ .side .nv.on{background:var(--accent-soft);color:var(--accent)}
+ .side .btn{margin-top:12px}
+ .side-f{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 6px;border-top:1px solid var(--line);min-width:0}
+ .side-f b{font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+ .main{max-width:1180px;padding:34px 40px 48px}
+ .bottom,.fab{display:none!important}
+}
+
+/* ── cards ── */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;min-width:0;transition:background .3s,border-color .3s}
+.enter .card,.enter .ed-card{animation:rise .5s var(--ease) both;animation-delay:calc(var(--i,0)*55ms)}
+.stack{display:grid;gap:14px}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.card-h h2{font-size:17px}
+.eyebrow{font-size:13px;color:var(--muted)}
+.big{font:600 clamp(34px,10vw,50px)/1.05 var(--disp);letter-spacing:-.03em;margin:6px 0 16px;font-variant-numeric:tabular-nums}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:14px;border-top:1px solid var(--line)}
+.trio span{display:block;font-size:12.5px;color:var(--muted)}
+.trio b{display:block;font:500 14px var(--mono);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bal-note{margin-top:12px;font-size:13px;color:var(--muted)}
+.seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--surface2);border-radius:12px;padding:3px;gap:2px}
+.seg.wide{display:grid;width:100%}
+.seg button{min-height:38px;padding:0 12px;border-radius:9px;font-size:14px;font-weight:600;color:var(--muted);transition:background .2s,color .2s}
+.seg button.on{background:var(--accent);color:var(--accent-ink)}
+.seg[data-seg=res] button.on[data-v=loss]{background:var(--loss);color:#fff}
+.seg.sm button{min-height:32px;padding:0 12px;font-size:13px}
+.chips{display:flex;gap:4px}
+.chips button{min-height:30px;padding:0 10px;border-radius:9px;font-size:12.5px;font-weight:600;color:var(--muted);transition:background .2s,color .2s}
+.chips button.on{background:var(--surface2);color:var(--text)}
+.chart-box{position:relative;margin:4px -6px 0;touch-action:pan-y}
+.chart-svg{display:block;max-width:100%;overflow:visible}
+.chart-svg .ln{fill:none;stroke:var(--c);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.chart-svg.up{--c:var(--accent)}.chart-svg.dn{--c:var(--loss)}
+.chart-svg .s1{stop-color:var(--c);stop-opacity:.24}.chart-svg .s2{stop-color:var(--c);stop-opacity:0}
+.chart-svg .gl{stroke:var(--line);stroke-width:1}
+.chart-svg .zl{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 4;opacity:.6}
+.chart-svg text{fill:var(--muted);font:11px var(--mono)}
+.chart-svg .endc{fill:var(--c)}
+.chart-svg .ping{fill:var(--c);opacity:.3;transform-box:fill-box;transform-origin:center;animation:ping 2.2s ease-out infinite}
+.chart-svg .gd{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+.chart-svg .gc{fill:var(--surface);stroke:var(--c);stroke-width:2}
+.chart-svg.draw .ln{stroke-dasharray:1 1;animation:draw 1.1s var(--ease) both}
+.chart-svg.draw .area{animation:fade .9s .35s both}
+@keyframes fade{from{opacity:0}}
+@keyframes ping{0%{transform:scale(1);opacity:.4}100%{transform:scale(3.2);opacity:0}}
+.tip{position:absolute;top:0;background:var(--text);color:var(--bg);font:500 12px var(--mono);padding:5px 8px;border-radius:8px;pointer-events:none;white-space:nowrap}
+.empty{color:var(--muted);font-size:14px;text-align:center;padding:26px 8px;line-height:1.5}
+.nav-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:14px 0}
+.plabel{font:600 16px var(--disp);text-align:center;flex:1}
+.plabel small{display:block;font:400 12px var(--sans);color:var(--accent);margin-top:2px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--surface2);border-radius:16px;padding:14px;min-width:0}
+.tile span{display:block;font-size:12.5px;color:var(--muted)}
+.tile b{display:block;font:500 22px/1.2 var(--mono);margin-top:3px;overflow:hidden;text-overflow:ellipsis}
+.tile small{font-size:12px;color:var(--muted)}
+.ring-t{display:flex;align-items:center;gap:12px}
+.ring{width:56px;height:56px;flex:none;transform:rotate(-90deg)}
+.ring .rt{fill:none;stroke:var(--line);stroke-width:5}
+.ring .rv{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:var(--wr) 1;animation:ringIn .9s var(--ease) both}
+@keyframes ringIn{from{stroke-dasharray:0 1}}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;margin-top:12px}
+.kv div{display:flex;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.kv span{color:var(--muted)}.kv b{font:500 13px var(--mono)}
+.target{margin-top:14px}
+.target .bar{height:8px;border-radius:99px;background:var(--surface2);overflow:hidden;margin-top:8px}
+.target .bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transform-origin:left;animation:grow .9s var(--ease) both}
+@keyframes grow{from{transform:scaleX(0)}}
+.target p{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr)) minmax(0,1.2fr);gap:4px}
+.cal .dh{font-size:11px;color:var(--muted);text-align:center;padding:4px 0}
+.day,.wk{aspect-ratio:1/1.08;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative;min-width:0;transition:transform .12s}
+.day:active,.wk:active{transform:scale(.94)}
+.day i{font-style:normal;font-size:13px;font-weight:500}
+.day em,.wk em{font:500 9.5px var(--mono);font-style:normal;letter-spacing:-.03em}
+.wk small{font:400 9px var(--mono);color:var(--muted)}
+.day.win{background:var(--accent-soft)}.day.win em{color:var(--accent)}
+.day.loss{background:var(--loss-soft)}.day.loss em{color:var(--loss)}
+.day.be{background:var(--surface2)}
+.day.out{opacity:.32}
+.day.today i::after{content:"";display:block;width:4px;height:4px;border-radius:50%;background:var(--accent);margin:1px auto 0}
+.day.insel:not(.pick){box-shadow:inset 0 0 0 1.5px var(--accent)}
+.day.pick{background:var(--accent);color:var(--accent-ink)}.day.pick em{color:inherit}.day.pick.today i::after{background:currentColor}
+.wk{background:var(--surface2)}
+.wk.win em{color:var(--accent)}.wk.loss em{color:var(--loss)}
+.wk.insel{box-shadow:inset 0 0 0 1.5px var(--accent)}
+.cal-sum{font-size:13px;color:var(--muted);margin-bottom:12px}
+
+/* lists */
+.list{display:grid}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;width:100%;padding:12px 0;border-top:1px solid var(--line);text-align:left}
+.list .row:first-child{border-top:0}
+.row-m b{display:block;font:500 14.5px var(--mono)}
+.row-m small{display:block;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-r{font:500 15px var(--mono);text-align:right}
+.row-r small{display:block;font-size:12px;color:var(--muted);font-weight:400}
+.tag{font:600 11.5px var(--sans);padding:5px 8px;border-radius:8px;letter-spacing:.02em;min-width:52px;text-align:center}
+.tag.buy,.tag.deposit{background:var(--accent-soft);color:var(--accent)}
+.tag.sell,.tag.withdraw{background:var(--loss-soft);color:var(--loss)}
+.grp{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 6px;font-size:13px;color:var(--muted)}
+.grp b{font:500 13px var(--mono)}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+
+/* settings */
+.prof{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.prof .cam{position:relative}
+.prof .cam button{position:absolute;right:-4px;bottom:-4px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;border:2px solid var(--surface)}
+.card h3{font-size:16px;margin-bottom:12px}
+.set-row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.set-row span{font-size:14.5px}
+
+/* modal */
+#modal{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.scrim{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;transition:opacity .22s}
+.sheet{position:relative;width:100%;max-width:520px;max-height:92dvh;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:24px 24px 0 0;padding:8px 20px calc(20px + env(safe-area-inset-bottom));transform:translateY(100%);transition:transform .28s var(--ease);overscroll-behavior:contain}
+#modal.open .scrim{opacity:1}#modal.open .sheet{transform:none}
+.grab{width:38px;height:4px;border-radius:9px;background:var(--line);margin:4px auto 8px}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sheet-h h3{font-size:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.rr{font:500 13px var(--mono);color:var(--muted);margin:-4px 0 14px;min-height:18px}
+.rr.good{color:var(--accent)}.rr.warn{color:var(--loss)}
+.form-act{display:grid;gap:10px;margin-top:6px}
+.form-act.two{grid-template-columns:1fr 1fr}
+@media(min-width:700px){
+ #modal{align-items:center}
+ .sheet{border-radius:24px;transform:translateY(16px) scale(.98);opacity:0;transition:transform .25s var(--ease),opacity .2s}
+ #modal.open .sheet{transform:none;opacity:1}
+ .grab{display:none}
+}
+
+/* home grid desktop */
+@media(min-width:1000px){
+ .home{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;align-items:start}
+ .home>.stack{display:grid}
+ .econ-wrap{max-width:1100px}
+}
+#toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translate(-50%,20px);background:var(--text);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;opacity:0;pointer-events:none;transition:.25s var(--ease);z-index:80;max-width:calc(100vw - 32px);text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:900px){#toast{bottom:28px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body data-page="home">
+
+<div id="splash">
+  <svg class="logo anim" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lg-ring" pathLength="1" d="M52.67 24.48A22 22 0 1 1 39.52 11.33"/><path class="lg-line" pathLength="1" d="M19 42L27.5 33.5L33 38.5L45.5 24.5"/><circle class="lg-dot" cx="50" cy="19.5" r="3.4" fill="currentColor" stroke="none"/></svg>
+  <div class="sp-word">auri</div>
+</div>
+<div id="auth" hidden></div>
+<div id="app" hidden></div>
+<div id="modal" hidden></div>
+<div id="toast" role="status"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="ekonomi-dunia.js"></script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   KONFIGURASI: isi dua nilai ini dari Supabase (Project Settings → API).
+   Anon key aman dipublikasikan; data dilindungi Row Level Security (setup.sql).
+   ════════════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'ISI_SUPABASE_URL_DI_SINI';
+const SUPABASE_ANON_KEY = 'ISI_ANON_KEY_DI_SINI';
+const ECON_ENDPOINT = '/.netlify/functions/econ';
+
+/* ───────── util ───────── */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const MON3 = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const DAYS3 = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const p2 = n => String(n).padStart(2, '0');
+const ymd = d => `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+const pd = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+const todayS = () => ymd(new Date());
+const addD = (s, n) => { const d = pd(s); d.setDate(d.getDate() + n); return ymd(d); };
+const wkStart = s => { const d = pd(s); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return ymd(d); };
+const mStart = s => s.slice(0, 8) + '01';
+const mEnd = s => { const d = pd(s); return ymd(new Date(d.getFullYear(), d.getMonth() + 1, 0)); };
+const addM = (s, n) => { const d = pd(mStart(s)); d.setMonth(d.getMonth() + n); return ymd(d); };
+const range = (mode, a) => mode === 'day' ? [a, a] : mode === 'week' ? [wkStart(a), addD(wkStart(a), 6)] : [mStart(a), mEnd(a)];
+function plabel(mode, a) {
+  const [f, t] = range(mode, a), df = pd(f), dt = pd(t);
+  if (mode === 'day') return `${DAYS3[df.getDay()]}, ${df.getDate()} ${MON3[df.getMonth()]} ${df.getFullYear()}`;
+  if (mode === 'week') return `${df.getDate()}${df.getMonth() !== dt.getMonth() ? ' ' + MON3[df.getMonth()] : ''} – ${dt.getDate()} ${MON3[dt.getMonth()]} ${dt.getFullYear()}`;
+  return `${MONTHS[df.getMonth()]} ${df.getFullYear()}`;
+}
+const shortD = s => { const d = pd(s); return `${d.getDate()} ${MON3[d.getMonth()]}`; };
+const fUSD = (n, sign) => { const a = Math.abs(n); const s = a.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); return (n < 0 && a >= .005 ? '-' : (sign && n > 0 ? '+' : '')) + '$' + s; };
+const fIDR = n => 'Rp' + Math.round(n).toLocaleString('id-ID');
+const fPx = n => n == null ? '–' : Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 3 });
+const cmp = n => { if (!n) return '0'; const a = Math.abs(n); const s = a >= 1000 ? (a / 1000).toFixed(a >= 10000 ? 0 : 1) + 'k' : a >= 100 ? String(Math.round(a)) : a >= 10 ? a.toFixed(1) : a.toFixed(2); return (n < 0 ? '-' : '+') + s; };
+const num = v => { const n = parseFloat(String(v).replace(',', '.')); return Number.isFinite(n) ? n : null; };
+const nz = v => v == null ? null : +v;
+const cls = n => n > 0 ? 'up' : n < 0 ? 'dn' : '';
+
+const ico = (p, s = 22) => `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const P = {
+  home: '<path d="M4 11.5 12 5l8 6.5V19a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/>',
+  list: '<path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  wallet: '<rect x="3.5" y="6" width="17" height="13" rx="2.5"/><path d="M3.5 10h17M16 14.5h1.5"/>',
+  globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.4 3.8 5.2 3.8 8.5s-1.3 6.1-3.8 8.5c-2.5-2.4-3.8-5.2-3.8-8.5S9.5 5.9 12 3.5z"/>',
+  sliders: '<path d="M5 7h9M18 7h1M5 17h1M10 17h9"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/>',
+  moon: '<path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/>',
+  eye: '<path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/>',
+  eyeOff: '<path d="M3 3l18 18M10.6 5.7A9.5 9.5 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a16 16 0 0 1-3.2 3.9M6.6 7.3A16 16 0 0 0 2.5 12S6 18.5 12 18.5a9 9 0 0 0 3.6-.8M9.9 9.9a3 3 0 0 0 4.2 4.2"/>',
+  chevL: '<path d="m15 6-6 6 6 6"/>', chevR: '<path d="m9 6 6 6-6 6"/>',
+  x: '<path d="M6 6l12 12M18 6 6 18"/>',
+  camera: '<path d="M4 8.5A1.5 1.5 0 0 1 5.5 7H8l1.2-2h5.6L16 7h2.5A1.5 1.5 0 0 1 20 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5z"/><circle cx="12" cy="13" r="3.2"/>',
+  download: '<path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/>',
+  logout: '<path d="M14 5h4a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h9"/>',
+};
+const logo = (c = '') => `<svg class="logo ${c}" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="lg-ring" pathLength="1" d="M52.67 24.48A22 22 0 1 1 39.52 11.33"/><path class="lg-line" pathLength="1" d="M19 42L27.5 33.5L33 38.5L45.5 24.5"/><circle class="lg-dot" cx="50" cy="19.5" r="3.4" fill="currentColor" stroke="none"/></svg>`;
+
+/* ───────── state ───────── */
+let sb = null;
+const S = { user: null, profile: null, trades: [], cash: [], page: 'home', mode: 'day', anchor: todayS(), cal: mStart(todayS()), range: '30', ctype: 'balance', recovering: false, ready: false, last: 0, ed: null, authMsg: null };
+
+function toast(m) {
+  const t = $('#toast'); t.textContent = m; t.classList.add('show');
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function tErr(e) {
+  const m = (e && e.message || String(e)).toLowerCase();
+  if (m.includes('invalid login')) return 'Email atau password salah.';
+  if (m.includes('not confirmed')) return 'Email belum dikonfirmasi. Cek inbox kamu.';
+  if (m.includes('already registered')) return 'Email sudah terdaftar. Coba masuk.';
+  if (m.includes('at least')) return 'Password minimal 6 karakter.';
+  if (m.includes('rate limit') || m.includes('too many')) return 'Terlalu sering. Tunggu sebentar lalu coba lagi.';
+  if (m.includes('schema cache') || m.includes('does not exist')) return 'Tabel belum dibuat. Jalankan setup.sql di Supabase.';
+  if (m.includes('failed to fetch') || m.includes('network')) return 'Koneksi bermasalah. Cek internet.';
+  if (m.includes('different from the old') || m.includes('same password')) return 'Password baru harus beda dari yang lama.';
+  if (m.includes('invalid email') || m.includes('unable to validate email')) return 'Format email tidak valid.';
+  return (e && e.message) || 'Terjadi kesalahan.';
+}
+
+/* ───────── tema ───────── */
+const themeIcon = () => ico(document.documentElement.dataset.theme === 'dark' ? P.sun : P.moon);
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem('auri-theme', t); } catch (e) {}
+  $('meta[name=theme-color]').content = t === 'dark' ? '#050705' : '#f7f8f5';
+  $$('[data-act=theme]').forEach(b => b.innerHTML = themeIcon());
+  $$('[data-act=theme-set]').forEach(b => b.classList.toggle('on', b.dataset.v === t));
+}
+
+/* ───────── statistik ───────── */
+function stats(arr) {
+  let w = 0, l = 0, gw = 0, gl = 0, pnl = 0, best = null, worst = null;
+  for (const t of arr) {
+    pnl += t.pnl;
+    if (t.pnl > 0) { w++; gw += t.pnl; } else if (t.pnl < 0) { l++; gl -= t.pnl; }
+    if (best === null || t.pnl > best) best = t.pnl;
+    if (worst === null || t.pnl < worst) worst = t.pnl;
+  }
+  const dec = w + l;
+  return { n: arr.length, w, l, pnl, wr: dec ? w / dec * 100 : null, pf: gl ? gw / gl : (gw ? Infinity : null), aw: w ? gw / w : null, al: l ? gl / l : null, best, worst };
+}
+const cashSum = (k, arr = S.cash) => arr.filter(c => c.kind === k).reduce((a, c) => a + c.usd, 0);
+
+/* ───────── chart ───────── */
+function monoPath(p) {
+  const n = p.length; if (n < 2) return '';
+  const dx = [], m = [];
+  for (let i = 0; i < n - 1; i++) { dx[i] = p[i + 1].x - p[i].x; m[i] = (p[i + 1].y - p[i].y) / dx[i]; }
+  const t = [m[0]];
+  for (let i = 1; i < n - 1; i++) t[i] = m[i - 1] * m[i] <= 0 ? 0 : (m[i - 1] + m[i]) / 2;
+  t[n - 1] = m[n - 2];
+  for (let i = 0; i < n - 1; i++) {
+    if (m[i] === 0) { t[i] = t[i + 1] = 0; continue; }
+    const a = t[i] / m[i], b = t[i + 1] / m[i], s = a * a + b * b;
+    if (s > 9) { const k = 3 / Math.sqrt(s); t[i] = k * a * m[i]; t[i + 1] = k * b * m[i]; }
+  }
+  let d = `M${p[0].x.toFixed(1)},${p[0].y.toFixed(1)}`;
+  for (let i = 0; i < n - 1; i++) {
+    const h = dx[i] / 3;
+    d += `C${(p[i].x + h).toFixed(1)},${(p[i].y + t[i] * h).toFixed(1)} ${(p[i + 1].x - h).toFixed(1)},${(p[i + 1].y - t[i + 1] * h).toFixed(1)} ${p[i + 1].x.toFixed(1)},${p[i + 1].y.toFixed(1)}`;
+  }
+  return d;
+}
+function series() {
+  const m = new Map(), add = (d, v) => m.set(d, (m.get(d) || 0) + v);
+  S.trades.forEach(t => add(t.trade_date, t.pnl));
+  if (S.ctype === 'balance') S.cash.forEach(c => add(c.flow_date, c.kind === 'deposit' ? c.usd : -c.usd));
+  const dates = [...m.keys()].sort();
+  if (!dates.length) return [];
+  let run = 0;
+  const pts = dates.map(d => { run += m.get(d); return { d, v: run }; });
+  pts.unshift({ d: addD(pts[0].d, -1), v: 0 });
+  const days = +S.range;
+  if (!days) return pts;
+  const cut = addD(todayS(), -days);
+  const i = pts.findIndex(p => p.d >= cut);
+  const sl = i === -1 ? pts.slice(-2) : pts.slice(Math.max(0, i - 1));
+  return sl.length < 2 ? pts.slice(-2) : sl;
+}
+function drawChart(anim) {
+  const box = $('#chart'); if (!box) return;
+  const pts = series();
+  if (pts.length < 2) { box.innerHTML = '<div class="empty">Belum ada data untuk digambar. Catat top up dan trade pertamamu.</div>'; box.onpointermove = null; return; }
+  const W = Math.max(240, box.clientWidth || 320), H = W < 480 ? 200 : 250, Pd = { l: 8, r: 8, t: 16, b: 24 };
+  const vs = pts.map(p => p.v); let lo = Math.min(...vs), hi = Math.max(...vs);
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const sp = hi - lo; lo -= sp * .1; hi += sp * .1;
+  const n = pts.length, X = i => Pd.l + i * (W - Pd.l - Pd.r) / (n - 1), Y = v => Pd.t + (1 - (v - lo) / (hi - lo)) * (H - Pd.t - Pd.b);
+  const xy = pts.map((p, i) => ({ x: X(i), y: Y(p.v) }));
+  const d = monoPath(xy), base = H - Pd.b, up = vs[n - 1] >= vs[0];
+  const ax = v => Math.abs(v) >= 1000 ? (v / 1000).toFixed(1) + 'k' : v.toFixed(0);
+  const grid = [0.18, 0.52, 0.86].map(k => { const v = lo + (hi - lo) * k, y = Y(v); return `<line class="gl" x1="0" x2="${W}" y1="${y}" y2="${y}"/><text x="${Pd.l}" y="${y - 4}">${ax(v)}</text>`; }).join('');
+  const zero = lo < 0 && hi > 0 ? `<line class="zl" x1="0" x2="${W}" y1="${Y(0)}" y2="${Y(0)}"/>` : '';
+  const mid = Math.floor((n - 1) / 2);
+  box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" class="chart-svg ${up ? 'up' : 'dn'} ${anim ? 'draw' : ''}" role="img" aria-label="Grafik perkembangan trading">
+<defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="s1"/><stop offset="1" class="s2"/></linearGradient></defs>
+${grid}${zero}
+<path class="area" d="${d}L${xy[n - 1].x.toFixed(1)},${base}L${xy[0].x.toFixed(1)},${base}Z" fill="url(#ga)"/>
+<path class="ln" pathLength="1" d="${d}"/>
+<g class="hov" style="opacity:0"><line class="gd" y1="${Pd.t}" y2="${base}" x1="0" x2="0"/><circle class="gc" r="4.5" cx="0" cy="0"/></g>
+<circle class="ping" cx="${xy[n - 1].x}" cy="${xy[n - 1].y}" r="4"/><circle class="endc" cx="${xy[n - 1].x}" cy="${xy[n - 1].y}" r="4"/>
+<text x="${Pd.l}" y="${H - 6}">${shortD(pts[0].d)}</text><text x="${X(mid)}" y="${H - 6}" text-anchor="middle">${shortD(pts[mid].d)}</text><text x="${W - Pd.r}" y="${H - 6}" text-anchor="end">${shortD(pts[n - 1].d)}</text></svg><div class="tip" hidden></div>`;
+  const hov = box.querySelector('.hov'), tip = box.querySelector('.tip');
+  box.onpointermove = e => {
+    const r = box.getBoundingClientRect();
+    let i = Math.round((e.clientX - r.left - Pd.l) / (W - Pd.l - Pd.r) * (n - 1)); i = Math.max(0, Math.min(n - 1, i));
+    const p = xy[i];
+    hov.style.opacity = 1;
+    const gd = hov.querySelector('.gd'); gd.setAttribute('x1', p.x); gd.setAttribute('x2', p.x);
+    const gc = hov.querySelector('.gc'); gc.setAttribute('cx', p.x); gc.setAttribute('cy', p.y);
+    tip.hidden = false; tip.textContent = `${shortD(pts[i].d)} · ${fUSD(pts[i].v, S.ctype === 'pnl')}`;
+    tip.style.left = Math.max(2, Math.min(W - tip.offsetWidth - 2, p.x - tip.offsetWidth / 2)) + 'px';
+  };
+  box.onpointerleave = () => { hov.style.opacity = 0; tip.hidden = true; };
+}
+let rsz; addEventListener('resize', () => { clearTimeout(rsz); rsz = setTimeout(() => { if (S.page === 'home') drawChart(false); }, 150); });
+
+function animNums(root) {
+  $$('[data-to]', root).forEach(el => {
+    const to = +el.dataset.to, f = el.dataset.fmt, sg = el.dataset.signed === '1';
+    const fmt = v => f === 'pct' ? Math.round(v) + '%' : f === 'int' ? String(Math.round(v)) : fUSD(v, sg);
+    if (reduced) { el.textContent = fmt(to); return; }
+    const t0 = performance.now();
+    const step = now => { const k = Math.min(1, (now - t0) / 650), e = 1 - Math.pow(1 - k, 3); el.textContent = fmt(to * e); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  });
+}
+
+/* ───────── data ───────── */
+async function loadData() {
+  const [t, c] = await Promise.all([
+    sb.from('trades').select('*').order('trade_date', { ascending: true }).order('created_at', { ascending: true }),
+    sb.from('cashflows').select('*').order('flow_date', { ascending: true }).order('created_at', { ascending: true }),
+  ]);
+  if (t.error || c.error) throw (t.error || c.error);
+  S.trades = t.data.map(r => ({ ...r, pnl: +r.pnl, entry: nz(r.entry), tp: nz(r.tp), sl: nz(r.sl), lot: nz(r.lot) }));
+  S.cash = c.data.map(r => ({ ...r, usd: +r.usd, idr: nz(r.idr) }));
+  S.last = Date.now();
+}
+const sortAll = () => {
+  S.trades.sort((a, b) => a.trade_date.localeCompare(b.trade_date) || String(a.created_at).localeCompare(String(b.created_at)));
+  S.cash.sort((a, b) => a.flow_date.localeCompare(b.flow_date) || String(a.created_at).localeCompare(String(b.created_at)));
+};
+async function ensureProfile() {
+  let { data, error } = await sb.from('profiles').select('*').eq('id', S.user.id).maybeSingle();
+  if (error) throw error;
+  if (!data) {
+    const uname = (S.user.user_metadata && S.user.user_metadata.username) || ('trader' + Math.floor(1000 + Math.random() * 9000));
+    const r = await sb.from('profiles').insert({ id: S.user.id, username: uname }).select().single();
+    if (r.error) throw r.error; data = r.data;
+  }
+  S.profile = { ...data, monthly_target: +data.monthly_target || 0 };
+}
+
+/* ───────── auth UI ───────── */
+const pwField = (id, label, ac) => `<label class="fld"><span>${label}</span><div class="pw"><input id="${id}" name="${id}" type="password" autocomplete="${ac}" placeholder="Minimal 6 karakter" required minlength="6"><button type="button" class="eye" data-act="eye" aria-label="Tampilkan password">${ico(P.eye)}</button></div></label>`;
+function renderAuth(view = 'in', msg = null) {
+  $('#app').hidden = true;
+  const a = $('#auth'); a.hidden = false;
+  const ready = !!sb;
+  let body = '';
+  const m = msg ? `<div class="msg ${msg.t}">${esc(msg.m)}</div>` : '';
+  if (!ready) body = `<h1>Belum terhubung</h1><p>Isi <b>SUPABASE_URL</b> dan <b>SUPABASE_ANON_KEY</b> di bagian atas script index.html, lalu deploy ulang.</p>`;
+  else if (view === 'in' || view === 'up') body = `
+    <div class="tabs"><button data-act="authview" data-v="in" class="${view === 'in' ? 'on' : ''}">Masuk</button><button data-act="authview" data-v="up" class="${view === 'up' ? 'on' : ''}">Daftar</button></div>
+    ${m}
+    <form id="${view === 'in' ? 'f-in' : 'f-up'}" novalidate>
+      ${view === 'up' ? `<label class="fld"><span>Username</span><input name="username" autocomplete="username" placeholder="mis. goldhunter" maxlength="24" required></label>` : ''}
+      <label class="fld"><span>Email</span><input name="email" type="email" inputmode="email" autocomplete="email" placeholder="kamu@email.com" required></label>
+      ${pwField('pw', 'Password', view === 'in' ? 'current-password' : 'new-password')}
+      ${view === 'in' ? `<div class="lnk-row"><span></span><button type="button" class="lnk" data-act="authview" data-v="forgot">Lupa password?</button></div>` : '<div style="height:4px"></div>'}
+      <button class="btn block" type="submit">${view === 'in' ? 'Masuk' : 'Buat akun'}</button>
+    </form>`;
+  else if (view === 'forgot') body = `
+    <h1>Lupa password</h1><p>Masukkan email akunmu. Kami kirim link untuk membuat password baru.</p>${m}
+    <form id="f-forgot" novalidate>
+      <label class="fld"><span>Email</span><input name="email" type="email" inputmode="email" autocomplete="email" placeholder="kamu@email.com" required></label>
+      <button class="btn block" type="submit">Kirim link reset</button>
+      <div style="text-align:center;margin-top:10px"><button type="button" class="lnk" data-act="authview" data-v="in">Kembali ke masuk</button></div>
+    </form>`;
+  else body = `
+    <h1>Password baru</h1><p>Buat password baru untuk akunmu.</p>${m}
+    <form id="f-recover" novalidate>${pwField('pw', 'Password baru', 'new-password')}<button class="btn block" type="submit">Simpan password</button></form>`;
+  a.innerHTML = `<div class="auth-wrap">
+    <button class="icon-btn theme-btn" data-act="theme" aria-label="Ganti tema">${themeIcon()}</button>
+    <div class="auth-brand">${logo()}<span class="wordmark">auri</span></div>
+    <div class="auth-card">${body}</div></div>`;
+}
+const busy = (f, on, label) => {
+  const b = $('button[type=submit]', f); if (!b) return;
+  if (on) { b.dataset.l = b.textContent; b.textContent = label || 'Memproses'; } else if (b.dataset.l) b.textContent = b.dataset.l;
+  b.disabled = on; b.classList.toggle('loading', on);
+};
+
+/* ───────── app shell ───────── */
+const NAV = [['home', 'Beranda', P.home], ['trades', 'Trade', P.list], ['cash', 'Kas', P.wallet], ['econ', 'Ekonomi', P.globe], ['settings', 'Akun', P.sliders]];
+const avatar = (sz = '') => S.profile && S.profile.avatar
+  ? `<img class="av ${sz}" src="${esc(S.profile.avatar)}" alt="">`
+  : `<span class="av ${sz}">${esc((S.profile && S.profile.username || '?').charAt(0))}</span>`;
+function shell() {
+  const item = ([k, l, i]) => `<button class="nv" data-act="nav" data-p="${k}" data-nav="${k}">${ico(i)}<span>${l}</span></button>`;
+  return `<div class="shell">
+  <aside class="side"><div class="brand">${logo()}<span class="wordmark">auri</span></div>
+    ${NAV.map(item).join('')}
+    <button class="btn" data-act="add-trade">${ico(P.plus, 18)}Trade baru</button>
+    <div class="side-f">${avatar('sm')}<div style="min-width:0"><b>${esc(S.profile.username)}</b></div></div>
+  </aside>
+  <main class="main" id="main"></main>
+  <nav class="bottom" aria-label="Navigasi">${NAV.map(item).join('')}</nav>
+  <button class="fab" data-act="add-trade" aria-label="Tambah trade">${ico(P.plus, 26)}</button>
+  </div>`;
+}
+function showApp() {
+  $('#auth').hidden = true; $('#app').hidden = false;
+  $('#app').innerHTML = shell();
+  S.page = 'home'; render(true);
+}
+const head = (t, sub) => `<header class="ph"><div><h1>${t}</h1>${sub ? `<p>${sub}</p>` : ''}</div><div class="ph-r"><button class="icon-btn" data-act="theme" aria-label="Ganti tema">${themeIcon()}</button><button data-act="nav" data-p="settings" aria-label="Akun">${avatar('sm')}</button></div></header>`;
+const PAGES = { home: pageHome, trades: pageTrades, cash: pageCash, econ: pageEcon, settings: pageSettings };
+
+function render(enter = true) {
+  const m = $('#main'); if (!m) return;
+  if (S.ed) { S.ed.destroy(); S.ed = null; }
+  const y = window.scrollY;
+  m.innerHTML = PAGES[S.page]();
+  m.classList.remove('enter');
+  if (enter) { void m.offsetWidth; m.classList.add('enter'); window.scrollTo(0, 0); } else window.scrollTo(0, y);
+  document.body.dataset.page = S.page;
+  $$('[data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === S.page));
+  animNums(m);
+  if (S.page === 'home') drawChart(enter);
+  if (S.page === 'econ') {
+    const root = $('#ed-root');
+    if (window.EkonomiDunia) S.ed = EkonomiDunia.mount(root, { endpoint: ECON_ENDPOINT });
+    else root.innerHTML = '<div class="card empty">Modul Ekonomi Dunia belum termuat. Pastikan file ekonomi-dunia.js ikut ter-deploy.</div>';
+  }
+}
+function go(p) { S.page = p; render(true); }
+
+/* ───────── halaman: beranda ───────── */
+function pageHome() {
+  const all = stats(S.trades), dep = cashSum('deposit'), wd = cashSum('withdraw'), bal = dep - wd + all.pnl;
+  const [f, t] = range(S.mode, S.anchor);
+  const pt = S.trades.filter(x => x.trade_date >= f && x.trade_date <= t);
+  const pc = S.cash.filter(x => x.flow_date >= f && x.flow_date <= t);
+  const ps = stats(pt), today = todayS(), wr = ps.wr;
+  const pdep = cashSum('deposit', pc), pwd = cashSum('withdraw', pc);
+  const modes = [['day', 'Harian'], ['week', 'Mingguan'], ['month', 'Bulanan']];
+  const pf = ps.pf == null ? '–' : ps.pf === Infinity ? '∞' : ps.pf.toFixed(2);
+  const tgt = S.profile.monthly_target;
+  const target = S.mode === 'month' && tgt > 0 ? (() => { const k = Math.max(0, Math.min(1, ps.pnl / tgt)); return `<div class="target"><p><span>Target bulan ini</span><b class="num">${fUSD(ps.pnl)} / ${fUSD(tgt)}</b></p><div class="bar"><i style="width:${(k * 100).toFixed(1)}%"></i></div></div>`; })() : '';
+  const calStats = stats(S.trades.filter(x => x.trade_date >= S.cal && x.trade_date <= mEnd(S.cal)));
+  const trades = pt.slice().reverse();
+  return `${head(`Halo, ${esc(S.profile.username)}`, plabel('day', today))}
+  <div class="home stack">
+   <section class="card" style="--i:0">
+     <div class="eyebrow">Saldo akun · XAUUSD</div>
+     <div class="big" data-to="${bal}" data-fmt="usd">${fUSD(bal)}</div>
+     <div class="trio">
+       <div><span>Top up</span><b>${fUSD(dep)}</b></div>
+       <div><span>Withdraw</span><b>${fUSD(wd)}</b></div>
+       <div><span>Total PnL</span><b class="${cls(all.pnl)}">${fUSD(all.pnl, true)}</b></div>
+     </div>
+     <div class="bal-note">${all.n ? `Win rate keseluruhan ${all.wr == null ? '–' : Math.round(all.wr) + '%'} dari ${all.n} trade (${all.w} profit, ${all.l} loss)` : 'Belum ada trade tercatat.'}</div>
+   </section>
+   <section class="card" style="--i:1">
+     <div class="card-h"><h2>Perkembangan</h2><div class="seg sm">${[['balance', 'Saldo'], ['pnl', 'PnL']].map(([v, l]) => `<button data-act="ctype" data-v="${v}" class="${S.ctype === v ? 'on' : ''}">${l}</button>`).join('')}</div></div>
+     <div id="chart" class="chart-box"></div>
+     <div class="chips" style="justify-content:flex-end;margin-top:6px">${[['7', '7H'], ['30', '30H'], ['90', '90H'], ['0', 'Semua']].map(([v, l]) => `<button data-act="range" data-v="${v}" class="${S.range === v ? 'on' : ''}">${l}</button>`).join('')}</div>
+   </section>
+   <section class="card" style="--i:2">
+     <div class="seg wide">${modes.map(([v, l]) => `<button data-act="mode" data-v="${v}" class="${S.mode === v ? 'on' : ''}">${l}</button>`).join('')}</div>
+     <div class="nav-row"><button class="icon-btn" data-act="prev" aria-label="Sebelumnya">${ico(P.chevL)}</button>
+       <div class="plabel">${plabel(S.mode, S.anchor)}${today >= f && today <= t ? '' : '<small><button data-act="today" class="lnk">Ke hari ini</button></small>'}</div>
+       <button class="icon-btn" data-act="next" aria-label="Berikutnya">${ico(P.chevR)}</button></div>
+     <div class="tiles">
+       <div class="tile"><span>PnL</span><b class="${cls(ps.pnl)}" data-to="${ps.pnl}" data-fmt="usd" data-signed="1">${fUSD(ps.pnl, true)}</b></div>
+       <div class="tile ring-t"><svg class="ring" viewBox="0 0 56 56"><circle class="rt" cx="28" cy="28" r="23" pathLength="1"/>${wr ? `<circle class="rv" cx="28" cy="28" r="23" pathLength="1" style="--wr:${(wr / 100).toFixed(3)}"/>` : ''}</svg><div><span>Win rate</span><b ${wr == null ? '' : `data-to="${wr}" data-fmt="pct"`}>${wr == null ? '–' : Math.round(wr) + '%'}</b></div></div>
+       <div class="tile"><span>Profit</span><b class="up" data-to="${ps.w}" data-fmt="int">${ps.w}</b><small>kali</small></div>
+       <div class="tile"><span>Loss</span><b class="dn" data-to="${ps.l}" data-fmt="int">${ps.l}</b><small>kali</small></div>
+     </div>
+     <div class="kv">
+       <div><span>Total trade</span><b>${ps.n}</b></div><div><span>Profit factor</span><b>${pf}</b></div>
+       <div><span>Rata² profit</span><b>${ps.aw == null ? '–' : fUSD(ps.aw)}</b></div><div><span>Rata² loss</span><b>${ps.al == null ? '–' : fUSD(-ps.al)}</b></div>
+       <div><span>Terbaik</span><b>${ps.best > 0 ? fUSD(ps.best) : '–'}</b></div><div><span>Terburuk</span><b>${ps.worst < 0 ? fUSD(ps.worst) : '–'}</b></div>
+       <div><span>Top up</span><b>${fUSD(pdep)}</b></div><div><span>Withdraw</span><b>${fUSD(pwd)}</b></div>
+     </div>${target}
+   </section>
+   <section class="card" style="--i:3">
+     <div class="card-h"><h2>Kalender</h2><div class="ph-r"><button class="icon-btn" data-act="calprev" aria-label="Bulan sebelumnya">${ico(P.chevL, 20)}</button><b style="font:600 14px var(--disp);min-width:104px;text-align:center">${MONTHS[pd(S.cal).getMonth()]} ${pd(S.cal).getFullYear()}</b><button class="icon-btn" data-act="calnext" aria-label="Bulan berikutnya">${ico(P.chevR, 20)}</button></div></div>
+     <div class="cal-sum">${calStats.n ? `${calStats.w} profit · ${calStats.l} loss · win rate ${calStats.wr == null ? '–' : Math.round(calStats.wr) + '%'} · <span class="num ${cls(calStats.pnl)}">${fUSD(calStats.pnl, true)}</span>` : 'Belum ada trade bulan ini.'}</div>
+     ${calHTML()}
+   </section>
+   <section class="card" style="--i:4">
+     <div class="card-h"><h2>Trade periode ini</h2><span class="eyebrow">${trades.length} trade</span></div>
+     ${trades.length ? `<div class="list">${trades.map(x => tradeRow(x, S.mode !== 'day')).join('')}</div>` : `<div class="empty">Belum ada trade di periode ini.<br><br><button class="btn sm" data-act="add-trade">Catat trade</button></div>`}
+   </section>
+  </div>`;
+}
+function calHTML() {
+  const first = S.cal, last = mEnd(first), pad = (pd(first).getDay() + 6) % 7, weeks = Math.ceil((pad + pd(last).getDate()) / 7), start = addD(first, -pad);
+  const by = {};
+  for (const t of S.trades) { const o = by[t.trade_date] || (by[t.trade_date] = { pnl: 0, w: 0, l: 0, n: 0 }); o.pnl += t.pnl; o.n++; if (t.pnl > 0) o.w++; else if (t.pnl < 0) o.l++; }
+  const [rf, rt] = range(S.mode, S.anchor), today = todayS(), selWk = wkStart(S.anchor);
+  let h = '<div class="cal">' + ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min', 'Pekan'].map(x => `<div class="dh">${x}</div>`).join('');
+  for (let w = 0; w < weeks; w++) {
+    const ws = addD(start, w * 7), agg = { pnl: 0, w: 0, l: 0, n: 0 };
+    for (let k = 0; k < 7; k++) {
+      const d = addD(ws, k), o = by[d], out = d < first || d > last;
+      if (o) { agg.pnl += o.pnl; agg.w += o.w; agg.l += o.l; agg.n += o.n; }
+      const c = o ? (o.pnl > 0 ? 'win' : o.pnl < 0 ? 'loss' : 'be') : '';
+      const sel = d >= rf && d <= rt && !(S.mode === 'month' && out);
+      h += `<button class="day ${c} ${out ? 'out' : ''} ${d === today ? 'today' : ''} ${sel ? 'insel' : ''} ${S.mode === 'day' && d === S.anchor ? 'pick' : ''}" data-act="pickday" data-d="${d}" aria-label="${d}"><i>${pd(d).getDate()}</i>${o ? `<em>${cmp(o.pnl)}</em>` : ''}</button>`;
+    }
+    const dec = agg.w + agg.l;
+    h += `<button class="wk ${agg.n ? (agg.pnl >= 0 ? 'win' : 'loss') : ''} ${S.mode === 'week' && ws === selWk ? 'insel' : ''}" data-act="pickweek" data-d="${ws}" aria-label="Pekan ${ws}">${agg.n ? `<em>${cmp(agg.pnl)}</em><small>${dec ? Math.round(agg.w / dec * 100) + '%' : '–'}</small>` : '<small>–</small>'}</button>`;
+  }
+  return h + '</div>';
+}
+function tradeRow(t, showDate) {
+  return `<button class="row" data-act="edit-trade" data-id="${t.id}">
+   <span class="tag ${t.side}">${t.side === 'buy' ? 'BUY' : 'SELL'}</span>
+   <span class="row-m"><b>${fPx(t.entry)}</b><small class="num">TP ${fPx(t.tp)} · SL ${fPx(t.sl)}${t.lot ? ` · ${t.lot} lot` : ''}${showDate ? ` · ${shortD(t.trade_date)}` : ''}</small></span>
+   <span class="row-r ${cls(t.pnl)}">${fUSD(t.pnl, true)}</span></button>`;
+}
+
+/* ───────── halaman: trade ───────── */
+function pageTrades() {
+  const st = stats(S.trades);
+  const groups = {};
+  S.trades.slice().reverse().forEach(t => (groups[t.trade_date] = groups[t.trade_date] || []).push(t));
+  const days = Object.keys(groups).sort().reverse();
+  return `${head('Trade', st.n ? `${st.n} trade · win rate ${st.wr == null ? '–' : Math.round(st.wr) + '%'}` : 'Jurnal entry, TP, SL dan hasil')}
+  <div class="stack"><section class="card" style="--i:0">
+   ${days.length ? days.map(d => { const g = groups[d], pnl = g.reduce((a, t) => a + t.pnl, 0); return `<div class="grp"><span>${plabel('day', d)}</span><b class="${cls(pnl)}">${fUSD(pnl, true)}</b></div><div class="list">${g.map(t => tradeRow(t, false)).join('')}</div>`; }).join('')
+     : `<div class="empty">Belum ada trade.<br><br><button class="btn sm" data-act="add-trade">Catat trade pertama</button></div>`}
+  </section></div>`;
+}
+
+/* ───────── halaman: kas ───────── */
+function pageCash() {
+  const dep = cashSum('deposit'), wd = cashSum('withdraw'), wdIdr = S.cash.filter(c => c.kind === 'withdraw').reduce((a, c) => a + (c.idr || 0), 0);
+  const rows = S.cash.slice().reverse();
+  return `${head('Kas', 'Top up dan withdraw')}
+  <div class="stack">
+   <section class="card" style="--i:0"><div class="trio" style="border:0;padding:0">
+     <div><span>Total top up</span><b>${fUSD(dep)}</b></div><div><span>Total withdraw</span><b>${fUSD(wd)}</b></div><div><span>Withdraw (Rp)</span><b>${fIDR(wdIdr)}</b></div></div></section>
+   <div class="btn-row" style="--i:1"><button class="btn" data-act="add-cash" data-k="deposit">${ico(P.plus, 18)}Top up</button><button class="btn ghost" data-act="add-cash" data-k="withdraw">Withdraw</button></div>
+   <section class="card" style="--i:2">${rows.length ? `<div class="list">${rows.map(c => `<button class="row" data-act="edit-cash" data-id="${c.id}">
+     <span class="tag ${c.kind}">${c.kind === 'deposit' ? 'TOP UP' : 'WD'}</span>
+     <span class="row-m"><b>${shortD(c.flow_date)} ${pd(c.flow_date).getFullYear()}</b><small>${esc(c.note || (c.kind === 'deposit' ? 'Top up' : 'Withdraw'))}</small></span>
+     <span class="row-r ${c.kind === 'deposit' ? 'up' : 'dn'}">${c.kind === 'deposit' ? '+' : '-'}${fUSD(c.usd)}${c.kind === 'withdraw' && c.idr ? `<small>${fIDR(c.idr)}</small>` : ''}</span></button>`).join('')}</div>` : '<div class="empty">Belum ada top up atau withdraw.</div>'}</section>
+  </div>`;
+}
+
+/* ───────── halaman: ekonomi dunia ───────── */
+function pageEcon() {
+  return `${head('Ekonomi Dunia', 'Berita makro dan dampaknya ke emas')}<div id="ed-root" class="econ-wrap"></div>`;
+}
+
+/* ───────── halaman: akun ───────── */
+function pageSettings() {
+  const th = document.documentElement.dataset.theme;
+  return `${head('Akun')}
+  <div class="stack">
+   <section class="card" style="--i:0">
+     <div class="prof"><div class="cam">${avatar('lg')}<button data-act="avatar-pick" aria-label="Ganti foto">${ico(P.camera, 16)}</button><input id="avatar-in" type="file" accept="image/*" hidden></div>
+       <div style="min-width:0"><b style="font:600 18px var(--disp)">${esc(S.profile.username)}</b><div class="muted" style="font-size:13px;overflow:hidden;text-overflow:ellipsis">${esc(S.user.email || '')}</div></div></div>
+     <form id="f-name" novalidate><label class="fld"><span>Username</span><input name="username" value="${esc(S.profile.username)}" maxlength="24" autocomplete="off"></label><button class="btn sm" type="submit">Simpan username</button></form>
+   </section>
+   <section class="card" style="--i:1"><h3>Tampilan</h3><div class="seg wide"><button data-act="theme-set" data-v="light" class="${th === 'light' ? 'on' : ''}">Putih</button><button data-act="theme-set" data-v="dark" class="${th === 'dark' ? 'on' : ''}">Hitam</button></div></section>
+   <section class="card" style="--i:2"><h3>Target profit bulanan</h3>
+     <form id="f-target" novalidate><label class="fld"><span>Target dalam USD (kosongkan untuk mematikan)</span><input name="target" inputmode="decimal" placeholder="mis. 500" value="${S.profile.monthly_target || ''}"></label><button class="btn sm" type="submit">Simpan target</button></form></section>
+   <section class="card" style="--i:3"><h3>Ganti password</h3>
+     <form id="f-pass" novalidate>${pwField('pw', 'Password baru', 'new-password')}<button class="btn sm" type="submit">Perbarui password</button></form></section>
+   <section class="card" style="--i:4"><h3>Data</h3><div class="btn-row" style="margin:0"><button class="btn ghost sm" data-act="export-trades">${ico(P.download, 16)}Trade (CSV)</button><button class="btn ghost sm" data-act="export-cash">${ico(P.download, 16)}Kas (CSV)</button></div></section>
+   <button class="btn danger block" data-act="logout">${ico(P.logout, 18)}Keluar</button>
+  </div>`;
+}
+
+/* ───────── modal ───────── */
+function modal(title, body) {
+  const m = $('#modal'); clearTimeout(modal.t);
+  m.innerHTML = `<div class="scrim" data-act="close"></div><div class="sheet" role="dialog" aria-modal="true"><div class="grab"></div><div class="sheet-h"><h3>${title}</h3><button class="icon-btn" data-act="close" aria-label="Tutup">${ico(P.x)}</button></div>${body}</div>`;
+  m.hidden = false; document.body.classList.add('lock');
+  requestAnimationFrame(() => requestAnimationFrame(() => m.classList.add('open')));
+}
+function closeModal() {
+  const m = $('#modal'); m.classList.remove('open');
+  modal.t = setTimeout(() => { m.hidden = true; m.innerHTML = ''; document.body.classList.remove('lock'); }, 240);
+}
+const seg = (name, opts, cur) => `<div class="seg" data-seg="${name}">${opts.map(([v, l]) => `<button type="button" data-v="${v}" class="${v === cur ? 'on' : ''}">${l}</button>`).join('')}<input type="hidden" name="${name}" value="${cur}"></div>`;
+
+function tradeModal(id) {
+  const t = id ? S.trades.find(x => x.id === id) : null;
+  const date = t ? t.trade_date : (S.page === 'home' && S.mode === 'day' ? S.anchor : todayS());
+  const v = k => t && t[k] != null ? t[k] : '';
+  modal(t ? 'Edit trade' : 'Trade baru', `<form id="f-trade" novalidate data-id="${t ? t.id : ''}">
+   <div class="grid2"><label class="fld"><span>Tanggal</span><input type="date" name="date" value="${date}" required></label>
+     <div class="fld"><span>Arah</span>${seg('side', [['buy', 'Buy'], ['sell', 'Sell']], t ? t.side : 'buy')}</div></div>
+   <div class="grid3">
+     <label class="fld"><span>Entry</span><input name="entry" inputmode="decimal" placeholder="0.00" value="${v('entry')}"></label>
+     <label class="fld"><span>Take profit</span><input name="tp" inputmode="decimal" placeholder="0.00" value="${v('tp')}"></label>
+     <label class="fld"><span>Stop loss</span><input name="sl" inputmode="decimal" placeholder="0.00" value="${v('sl')}"></label></div>
+   <div class="rr" id="rr"></div>
+   <div class="grid2"><label class="fld"><span>Lot (opsional)</span><input name="lot" inputmode="decimal" placeholder="0.01" value="${v('lot')}"></label>
+     <label class="fld"><span>Sesi (opsional)</span><select name="session"><option value="">–</option>${['Asia', 'London', 'New York'].map(s => `<option ${t && t.session === s ? 'selected' : ''}>${s}</option>`).join('')}</select></label></div>
+   <div class="fld"><span>Hasil (USD)</span><div class="grid2">${seg('res', [['profit', 'Profit'], ['loss', 'Loss']], t && t.pnl < 0 ? 'loss' : 'profit')}<input name="amt" inputmode="decimal" placeholder="0.00" value="${t ? Math.abs(t.pnl) : ''}"></div></div>
+   <label class="fld"><span>Catatan (opsional)</span><textarea name="note" rows="2" maxlength="300">${esc(t ? t.note : '')}</textarea></label>
+   <div class="err-t" id="ferr"></div>
+   <div class="form-act ${t ? 'two' : ''}"><button class="btn" type="submit">Simpan</button>${t ? `<button class="btn danger" type="button" data-act="del" data-kind="trade" data-id="${t.id}">Hapus</button>` : ''}</div></form>`);
+  updateRR();
+}
+function updateRR() {
+  const f = $('#f-trade'), el = $('#rr'); if (!f || !el) return;
+  const g = n => num(f.elements[n].value), side = f.elements.side.value;
+  const e = g('entry'), tp = g('tp'), sl = g('sl');
+  el.className = 'rr';
+  if (e == null || tp == null || sl == null) { el.textContent = 'Risk : Reward akan dihitung otomatis'; return; }
+  const reward = side === 'buy' ? tp - e : e - tp, risk = side === 'buy' ? e - sl : sl - e;
+  if (risk > 0 && reward > 0) { el.textContent = `Risk : Reward  1 : ${(reward / risk).toFixed(2)}`; el.classList.add('good'); }
+  else { el.textContent = 'TP dan SL tidak searah dengan arah trade'; el.classList.add('warn'); }
+}
+function cashModal(kind, id) {
+  const c = id ? S.cash.find(x => x.id === id) : null;
+  kind = c ? c.kind : kind;
+  const wd = kind === 'withdraw';
+  modal(`${c ? 'Edit ' : ''}${wd ? 'Withdraw' : 'Top up'}`, `<form id="f-cash" novalidate data-id="${c ? c.id : ''}"><input type="hidden" name="kind" value="${kind}">
+   <label class="fld"><span>Tanggal</span><input type="date" name="date" value="${c ? c.flow_date : todayS()}" required></label>
+   <label class="fld"><span>Jumlah (USD)</span><input name="usd" inputmode="decimal" placeholder="0.00" value="${c ? c.usd : ''}"></label>
+   ${wd ? `<label class="fld"><span>Jumlah diterima (Rupiah, opsional)</span><input name="idr" inputmode="numeric" placeholder="0" value="${c && c.idr ? Math.round(c.idr) : ''}"></label><div class="rr" id="rate"></div>` : ''}
+   <label class="fld"><span>Catatan (opsional)</span><input name="note" maxlength="120" value="${esc(c ? c.note : '')}"></label>
+   <div class="err-t" id="ferr"></div>
+   <div class="form-act ${c ? 'two' : ''}"><button class="btn" type="submit">Simpan</button>${c ? `<button class="btn danger" type="button" data-act="del" data-kind="cash" data-id="${c.id}">Hapus</button>` : ''}</div></form>`);
+  updateRate();
+}
+function updateRate() {
+  const f = $('#f-cash'), el = $('#rate'); if (!f || !el) return;
+  const u = num(f.elements.usd.value), r = num(f.elements.idr.value);
+  el.textContent = u > 0 && r > 0 ? `Kurs sekitar ${fIDR(r / u)} per USD` : '';
+}
+
+/* ───────── event: klik ───────── */
+const A = {
+  theme: () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'),
+  'theme-set': b => setTheme(b.dataset.v),
+  eye: b => { const i = $('input', b.closest('.pw')); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; b.innerHTML = ico(show ? P.eyeOff : P.eye); b.setAttribute('aria-label', show ? 'Sembunyikan password' : 'Tampilkan password'); },
+  authview: b => renderAuth(b.dataset.v),
+  nav: b => go(b.dataset.p),
+  mode: b => { S.mode = b.dataset.v; S.cal = mStart(S.anchor); render(false); },
+  prev: () => shift(-1), next: () => shift(1),
+  today: () => { S.anchor = todayS(); S.cal = mStart(S.anchor); render(false); },
+  calprev: () => { S.cal = addM(S.cal, -1); render(false); },
+  calnext: () => { S.cal = addM(S.cal, 1); render(false); },
+  pickday: b => { S.mode = 'day'; S.anchor = b.dataset.d; S.cal = mStart(S.anchor); render(false); },
+  pickweek: b => { S.mode = 'week'; S.anchor = b.dataset.d; render(false); },
+  ctype: b => { S.ctype = b.dataset.v; render(false); drawChart(true); },
+  range: b => { S.range = b.dataset.v; render(false); drawChart(true); },
+  'add-trade': () => tradeModal(),
+  'edit-trade': b => tradeModal(b.dataset.id),
+  'add-cash': b => cashModal(b.dataset.k),
+  'edit-cash': b => cashModal(null, b.dataset.id),
+  close: closeModal,
+  'avatar-pick': () => $('#avatar-in').click(),
+  'export-trades': () => dl('auri-trades.csv', csv([['tanggal', 'arah', 'entry', 'tp', 'sl', 'lot', 'sesi', 'pnl_usd', 'catatan'], ...S.trades.map(t => [t.trade_date, t.side, t.entry, t.tp, t.sl, t.lot, t.session, t.pnl, t.note])])),
+  'export-cash': () => dl('auri-kas.csv', csv([['tanggal', 'jenis', 'usd', 'idr', 'catatan'], ...S.cash.map(c => [c.flow_date, c.kind, c.usd, c.idr, c.note])])),
+  logout: async () => { await sb.auth.signOut(); },
+  del: async b => {
+    if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = 'Yakin hapus?'; setTimeout(() => { if (b.isConnected) { delete b.dataset.armed; b.textContent = 'Hapus'; } }, 2500); return; }
+    const kind = b.dataset.kind, id = b.dataset.id, tb = kind === 'trade' ? 'trades' : 'cashflows';
+    b.disabled = true;
+    const { error } = await sb.from(tb).delete().eq('id', id);
+    if (error) { b.disabled = false; return $('#ferr').textContent = tErr(error); }
+    if (kind === 'trade') S.trades = S.trades.filter(x => x.id !== id); else S.cash = S.cash.filter(x => x.id !== id);
+    closeModal(); render(false); toast('Dihapus');
+  },
+};
+function shift(dir) {
+  const a = S.anchor;
+  S.anchor = S.mode === 'day' ? addD(a, dir) : S.mode === 'week' ? addD(a, 7 * dir) : addM(a, dir);
+  S.cal = mStart(S.anchor); render(false);
+}
+document.addEventListener('click', e => {
+  const sg = e.target.closest('.seg[data-seg] button');
+  if (sg) {
+    const box = sg.closest('.seg'); $$('button', box).forEach(x => x.classList.toggle('on', x === sg));
+    $('input', box).value = sg.dataset.v; if (box.closest('#f-trade')) updateRR(); return;
+  }
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const fn = A[b.dataset.act]; if (fn) fn(b, e);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#modal').hidden) closeModal(); });
+document.addEventListener('input', e => {
+  if (e.target.closest('#f-trade')) updateRR();
+  if (e.target.closest('#f-cash')) updateRate();
+});
+document.addEventListener('change', async e => {
+  if (e.target.id !== 'avatar-in' || !e.target.files[0]) return;
+  try {
+    toast('Memproses foto…');
+    const url = await cropImg(e.target.files[0]);
+    const { error } = await sb.from('profiles').update({ avatar: url }).eq('id', S.user.id);
+    if (error) throw error;
+    S.profile.avatar = url; render(false); toast('Foto profil diperbarui');
+  } catch (err) { toast(tErr(err)); }
+});
+function cropImg(file) {
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const s = Math.min(img.width, img.height), c = document.createElement('canvas'); c.width = c.height = 256;
+      c.getContext('2d').drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, 256, 256);
+      URL.revokeObjectURL(url); res(c.toDataURL('image/jpeg', .85));
+    };
+    img.onerror = () => rej(new Error('Gambar tidak bisa dibaca'));
+    img.src = url;
+  });
+}
+const csv = rows => rows.map(r => r.map(v => { v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }).join(',')).join('\n');
+function dl(name, text) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + text], { type: 'text/csv' }));
+  a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+
+/* ───────── event: submit ───────── */
+const F = {
+  'f-in': async f => {
+    const email = f.elements.email.value.trim(), pw = f.elements.pw.value;
+    if (!email || !pw) return renderAuthMsg('in', 'Isi email dan password.');
+    busy(f, true);
+    const { error } = await sb.auth.signInWithPassword({ email, password: pw });
+    if (error) { busy(f, false); renderAuthMsg('in', tErr(error)); }
+  },
+  'f-up': async f => {
+    const username = f.elements.username.value.trim(), email = f.elements.email.value.trim(), pw = f.elements.pw.value;
+    if (username.length < 2) return renderAuthMsg('up', 'Username minimal 2 karakter.');
+    if (!/^[\w.\- ]+$/.test(username)) return renderAuthMsg('up', 'Username hanya huruf, angka, spasi, titik, garis.');
+    if (!email) return renderAuthMsg('up', 'Isi email.');
+    if (pw.length < 6) return renderAuthMsg('up', 'Password minimal 6 karakter.');
+    busy(f, true);
+    const { data, error } = await sb.auth.signUp({ email, password: pw, options: { data: { username }, emailRedirectTo: location.origin + location.pathname } });
+    busy(f, false);
+    if (error) return renderAuthMsg('up', tErr(error));
+    if (data.user && data.user.identities && data.user.identities.length === 0) return renderAuthMsg('up', 'Email sudah terdaftar. Coba masuk.');
+    if (!data.session) renderAuth('in', { t: 'ok', m: 'Akun dibuat. Cek email untuk konfirmasi, lalu masuk.' });
+  },
+  'f-forgot': async f => {
+    const email = f.elements.email.value.trim();
+    if (!email) return renderAuthMsg('forgot', 'Isi email.');
+    busy(f, true);
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+    busy(f, false);
+    if (error) return renderAuthMsg('forgot', tErr(error));
+    renderAuth('forgot', { t: 'ok', m: 'Link reset dikirim. Cek inbox dan folder spam.' });
+  },
+  'f-recover': async f => {
+    const pw = f.elements.pw.value;
+    if (pw.length < 6) return renderAuthMsg('recover', 'Password minimal 6 karakter.');
+    busy(f, true);
+    const { data, error } = await sb.auth.updateUser({ password: pw });
+    busy(f, false);
+    if (error) return renderAuthMsg('recover', tErr(error));
+    S.recovering = false; history.replaceState(null, '', location.pathname);
+    boot(data.user);
+  },
+  'f-name': async f => {
+    const u = f.elements.username.value.trim();
+    if (u.length < 2 || u.length > 24) return toast('Username 2 sampai 24 karakter.');
+    busy(f, true);
+    const { error } = await sb.from('profiles').update({ username: u }).eq('id', S.user.id);
+    busy(f, false);
+    if (error) return toast(tErr(error));
+    S.profile.username = u; render(false); toast('Username disimpan');
+  },
+  'f-target': async f => {
+    const raw = f.elements.target.value.trim(), v = raw ? num(raw) : 0;
+    if (v == null || v < 0) return toast('Target harus angka positif.');
+    busy(f, true);
+    const { error } = await sb.from('profiles').update({ monthly_target: v }).eq('id', S.user.id);
+    busy(f, false);
+    if (error) return toast(tErr(error));
+    S.profile.monthly_target = v; toast(v ? 'Target disimpan' : 'Target dimatikan');
+  },
+  'f-pass': async f => {
+    const pw = f.elements.pw.value;
+    if (pw.length < 6) return toast('Password minimal 6 karakter.');
+    busy(f, true);
+    const { error } = await sb.auth.updateUser({ password: pw });
+    busy(f, false);
+    if (error) return toast(tErr(error));
+    f.reset(); toast('Password diperbarui');
+  },
+  'f-trade': async f => {
+    const g = n => f.elements[n].value.trim(), err = m => { $('#ferr').textContent = m; };
+    const date = g('date'), entry = num(g('entry')), tp = g('tp') ? num(g('tp')) : null, sl = g('sl') ? num(g('sl')) : null, lot = g('lot') ? num(g('lot')) : null, amt = num(g('amt'));
+    if (!date) return err('Tanggal wajib diisi.');
+    if (entry == null || entry <= 0) return err('Entry harus berupa angka.');
+    if (g('tp') && tp == null) return err('Take profit harus berupa angka.');
+    if (g('sl') && sl == null) return err('Stop loss harus berupa angka.');
+    if (g('lot') && (lot == null || lot <= 0)) return err('Lot harus berupa angka positif.');
+    if (amt == null || amt < 0) return err('Isi hasil dalam USD. Kalau impas, isi 0.');
+    const row = { user_id: S.user.id, trade_date: date, side: g('side'), entry, tp, sl, lot, pnl: (g('res') === 'loss' ? -amt : amt) || 0, session: g('session') || null, note: g('note') || null };
+    busy(f, true);
+    const id = f.dataset.id;
+    const r = id ? await sb.from('trades').update(row).eq('id', id).select().single() : await sb.from('trades').insert(row).select().single();
+    busy(f, false);
+    if (r.error) return err(tErr(r.error));
+    const nr = { ...r.data, pnl: +r.data.pnl, entry: nz(r.data.entry), tp: nz(r.data.tp), sl: nz(r.data.sl), lot: nz(r.data.lot) };
+    if (id) S.trades = S.trades.map(x => x.id === id ? nr : x); else S.trades.push(nr);
+    sortAll(); closeModal(); render(false); toast(id ? 'Trade diperbarui' : 'Trade disimpan');
+  },
+  'f-cash': async f => {
+    const g = n => f.elements[n] ? f.elements[n].value.trim() : '', err = m => { $('#ferr').textContent = m; };
+    const kind = g('kind'), date = g('date'), usd = num(g('usd')), idr = g('idr') ? num(g('idr')) : null;
+    if (!date) return err('Tanggal wajib diisi.');
+    if (usd == null || usd <= 0) return err('Jumlah USD harus lebih dari 0.');
+    if (g('idr') && (idr == null || idr < 0)) return err('Jumlah Rupiah harus berupa angka.');
+    const row = { user_id: S.user.id, flow_date: date, kind, usd, idr: kind === 'withdraw' ? idr : null, note: g('note') || null };
+    busy(f, true);
+    const id = f.dataset.id;
+    const r = id ? await sb.from('cashflows').update(row).eq('id', id).select().single() : await sb.from('cashflows').insert(row).select().single();
+    busy(f, false);
+    if (r.error) return err(tErr(r.error));
+    const nr = { ...r.data, usd: +r.data.usd, idr: nz(r.data.idr) };
+    if (id) S.cash = S.cash.map(x => x.id === id ? nr : x); else S.cash.push(nr);
+    sortAll(); closeModal(); render(false); toast(id ? 'Diperbarui' : kind === 'deposit' ? 'Top up dicatat' : 'Withdraw dicatat');
+  },
+};
+function renderAuthMsg(view, m) {
+  const card = $('.auth-card'); if (!card) return;
+  let box = $('.msg', card);
+  if (!box) { box = document.createElement('div'); box.className = 'msg err'; const f = $('form', card); f.parentNode.insertBefore(box, f); }
+  box.className = 'msg err'; box.textContent = m;
+}
+document.addEventListener('submit', e => {
+  e.preventDefault();
+  const fn = F[e.target.id]; if (fn) fn(e.target).catch(err => { console.error(err); busy(e.target, false); toast(tErr(err)); });
+});
+
+/* ───────── boot & sesi ───────── */
+async function boot(user) {
+  S.user = user;
+  try { await ensureProfile(); await loadData(); }
+  catch (e) {
+    console.error(e); S.user = null;
+    await sb.auth.signOut().catch(() => {});
+    return renderAuth('in', { t: 'err', m: tErr(e) });
+  }
+  showApp();
+}
+function hideSplash() { const s = $('#splash'); s.classList.add('out'); setTimeout(() => s.hidden = true, 500); }
+
+async function init() {
+  setTheme(document.documentElement.dataset.theme);
+  const ok = /^https?:\/\//.test(SUPABASE_URL) && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.startsWith('ISI_') && window.supabase;
+  if (!ok) { await sleep(1700); hideSplash(); renderAuth('in'); return; }
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+  if (/type=recovery/.test(location.hash)) S.recovering = true;
+  sb.auth.onAuthStateChange((ev, session) => {
+    if (ev === 'PASSWORD_RECOVERY') { S.recovering = true; if (S.ready) renderAuth('recover'); return; }
+    if (ev === 'SIGNED_OUT') { if (S.ready) { S.user = null; S.profile = null; S.trades = []; S.cash = []; renderAuth('in'); } return; }
+    if (ev === 'SIGNED_IN' && S.ready && !S.recovering && session) {
+      if (S.user && S.user.id === session.user.id) return;
+      setTimeout(() => boot(session.user), 0);
+    }
+  });
+  let session = null;
+  try { const [r] = await Promise.all([sb.auth.getSession(), sleep(1700)]); session = r.data.session; } catch (e) { await sleep(300); }
+  hideSplash();
+  S.ready = true;
+  if (S.recovering) return renderAuth('recover');
+  if (session) await boot(session.user); else renderAuth('in');
+}
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState !== 'visible' || !S.user || !S.ready || Date.now() - S.last < 15000) return;
+  try { await loadData(); if (!['settings', 'econ'].includes(S.page) && $('#modal').hidden) render(false); } catch (e) { /* diam, coba lagi nanti */ }
+});
+init();
+</script>
+</body>
+</html>
