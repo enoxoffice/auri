@@ -716,16 +716,16 @@ function pageSettings() {
   <div class="stack">
    <section class="card" style="--i:0">
      <div class="prof">
-       <label class="cam" for="avatar-in" data-act="avatar-pick" title="Klik foto untuk ganti" role="button" tabindex="0" aria-label="Ganti foto profil">
+       <label class="cam" for="avatar-in" title="Klik foto untuk ganti foto profil">
          ${avatar('lg')}
          <span class="cam-badge" aria-hidden="true">${ico(P.camera, 16)}</span>
-         <input id="avatar-in" type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/*" style="display:none">
        </label>
+       <input id="avatar-in" type="file" accept="image/*" style="position:fixed;top:-1000px;left:-1000px;opacity:0;pointer-events:none">
        <div style="min-width:0">
          <b style="font:600 18px var(--disp)">${esc(S.profile.username)}</b>
          <div class="muted" style="font-size:13px;overflow:hidden;text-overflow:ellipsis">${esc(S.user.email || '')}</div>
          <div style="display:flex;gap:12px;margin-top:6px;align-items:center">
-           <button type="button" class="lnk" data-act="avatar-pick" style="font-size:13px;padding:0">Ganti foto</button>
+           <label for="avatar-in" class="lnk" style="font-size:13px;padding:0;cursor:pointer">Ganti foto</label>
            ${S.profile && S.profile.avatar ? `<button type="button" class="lnk" data-act="avatar-del" style="font-size:13px;padding:0;color:var(--loss)">Hapus foto</button>` : ''}
          </div>
        </div>
@@ -886,9 +886,10 @@ document.addEventListener('input', e => {
   if (e.target.closest('#f-cash')) updateRate();
 });
 document.addEventListener('change', async e => {
-  if (e.target.id !== 'avatar-in' || !e.target.files || !e.target.files[0]) return;
+  if (e.target.id !== 'avatar-in') return;
   const inputEl = e.target;
-  const file = inputEl.files[0];
+  const file = inputEl.files && inputEl.files[0];
+  if (!file) return;
   try {
     toast('Memproses foto…');
     const url = await cropImg(file);
@@ -902,8 +903,8 @@ document.addEventListener('change', async e => {
     if (sb && S.user) {
       const { error } = await sb.from('profiles').update({ avatar: url }).eq('id', S.user.id);
       if (error) {
-        console.warn('Gagal sinkron ke database:', error);
-        toast('Foto disimpan lokal (database belum sinkron)');
+        console.warn('Gagal sinkron ke database Supabase:', error);
+        toast('Foto tersimpan di browser! (Jalankan SQL avatar di Supabase)');
         return;
       }
     }
@@ -918,19 +919,17 @@ document.addEventListener('change', async e => {
 function cropImg(file) {
   return new Promise((resolve, reject) => {
     if (!file) return reject(new Error('Tidak ada file dipilih'));
-    if (file.type && !file.type.startsWith('image/')) {
-      return reject(new Error('Pilih file gambar (JPG, PNG, WebP)'));
-    }
     const reader = new FileReader();
     reader.onerror = () => reject(new Error('Gagal membaca file gambar'));
     reader.onload = ev => {
+      const rawUrl = ev.target.result;
       const img = new Image();
-      img.onerror = () => reject(new Error('Gambar tidak bisa dibaca atau format tidak didukung'));
+      img.onerror = () => resolve(rawUrl);
       img.onload = () => {
         try {
           const w = img.naturalWidth || img.width;
           const h = img.naturalHeight || img.height;
-          if (!w || !h) return reject(new Error('Dimensi gambar tidak valid'));
+          if (!w || !h) return resolve(rawUrl);
           const s = Math.min(w, h);
           const c = document.createElement('canvas');
           c.width = 256;
@@ -941,13 +940,12 @@ function cropImg(file) {
           const sx = (w - s) / 2;
           const sy = (h - s) / 2;
           ctx.drawImage(img, sx, sy, s, s, 0, 0, 256, 256);
-          const dataUrl = c.toDataURL('image/jpeg', 0.88);
-          resolve(dataUrl);
-        } catch (err) {
-          reject(err);
+          resolve(c.toDataURL('image/jpeg', 0.88));
+        } catch (_) {
+          resolve(rawUrl);
         }
       };
-      img.src = ev.target.result;
+      img.src = rawUrl;
     };
     reader.readAsDataURL(file);
   });
